@@ -5,8 +5,9 @@ import { createId } from "@paralleldrive/cuid2";
 
 export const component = sqliteTable("component", {
   id: text("id").primaryKey().$defaultFn(() => createId()),
-  code: text('code').notNull(),
-  name: text('name').notNull(),
+  sourceCode: text('source_code').notNull().default(''), // Provide default value for migration
+  name: text('name'),
+  edits: text('edits').notNull().default('[]'), // JSON array of edit operations
   createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
   updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull()
 });
