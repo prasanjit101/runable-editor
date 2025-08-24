@@ -17,7 +17,6 @@ export function useEditorState() {
     error: null,
   });
 
-  const saveTimeoutRef = useRef<NodeJS.Timeout>();
   const selectedElementRef = useRef<Element | null>(null);
 
   const debouncedSave = useCallback(

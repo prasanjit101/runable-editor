@@ -5,8 +5,7 @@ import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/componen
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { RotateCcw, Copy, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { SourceInput } from './source-input';
@@ -19,7 +18,52 @@ export function MainEditor() {
   const { state, selectedElement, actions } = useEditorState();
   const [showSourceInput, setShowSourceInput] = useState(true);
 
-  
+    const handleCreateComponent = async (sourceCode: string, name?: string) => {
+        try {
+            await actions.createComponent(sourceCode, name);
+            setShowSourceInput(false);
+            toast.success('Component created! Your component is ready for editing.');
+        } catch (error) {
+            toast.error('Failed to create component. Please check your code.');
+        }
+    };
+
+    const handleNewComponent = () => {
+        setShowSourceInput(true);
+        actions.clearError();
+    };
+
+    const handleComponentSelect = async (componentId: string) => {
+        try {
+            await actions.loadComponent(componentId);
+            setShowSourceInput(false);
+            toast.success('Component loaded successfully');
+        } catch (error) {
+            toast.error('Failed to load component');
+        }
+    };
+
+    const getSaveStatus = () => {
+        if (state.isSaving) {
+            return (
+                <Badge variant="secondary" className="flex items-center gap-1">
+                    <Loader2 className="h-3 w-3 animate-spin" />
+                    Saving...
+                </Badge>
+            );
+        }
+
+        if (state.edits.length > 0) {
+            return (
+                <Badge variant="outline" className="flex items-center gap-1">
+                    <CheckCircle2 className="h-3 w-3" />
+                    Saved
+                </Badge>
+            );
+        }
+
+        return null;
+    };
 
   if (showSourceInput || !state.componentId) {
     return (
@@ -40,7 +84,23 @@ export function MainEditor() {
             </Card>
           )}
           
-          
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100%-8rem)]">
+                    {/* Source Input Section */}
+                    <div className="lg:col-span-2">
+                        <SourceInput
+                            onCreateComponent={handleCreateComponent}
+                            isLoading={state.isLoading}
+                        />
+                    </div>
+
+                    {/* Component List Section */}
+                    <div className="lg:col-span-1">
+                        <ComponentList
+                            onComponentSelect={handleComponentSelect}
+                            className="h-full"
+                        />
+                    </div>
+                </div>
         </div>
       </div>
     );
@@ -49,7 +109,30 @@ export function MainEditor() {
   return (
     <div className="h-screen flex flex-col">
       {/* Header */}
-      
+          <div className="border-b p-4">
+              <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                      <h1 className="text-xl font-semibold">Runable Editor</h1>
+                      {getSaveStatus()}
+                  </div>
+
+
+                  <Button
+                      variant="default"
+                      size="sm"
+                      onClick={handleNewComponent}
+                  >
+                      New Component
+                  </Button>
+              </div>
+
+              {state.error && (
+                  <div className="mt-2 flex items-center gap-2 text-destructive text-sm">
+                      <AlertCircle className="h-4 w-4" />
+                      {state.error}
+                  </div>
+              )}
+          </div>
       
       {/* Main Content */}
       <div className="flex-1 overflow-hidden">
