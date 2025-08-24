@@ -53,10 +53,14 @@ export function useEditorState() {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
     
     try {
+      let normalizedSourceCode = sourceCode.replace(
+        /export\s+default\s+function\s+([A-Za-z0-9_]+)/,
+        'export default function MyComponent'
+      );
       const response = await fetch('/api/component', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sourceCode, name }),
+        body: JSON.stringify({ sourceCode: normalizedSourceCode, name }),
       });
       
       if (!response.ok) {
@@ -68,7 +72,7 @@ export function useEditorState() {
       setState(prev => ({
         ...prev,
         componentId: id,
-        sourceCode,
+        sourceCode: normalizedSourceCode,
         edits: [],
         selectedPath: null,
         isLoading: false,

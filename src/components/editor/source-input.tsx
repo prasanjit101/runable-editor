@@ -75,7 +75,7 @@ export function SourceInput({ onCreateComponent, isLoading }: SourceInputProps) 
               value={sourceCode}
               onChange={(e) => setSourceCode(e.target.value)}
               placeholder="Paste your React component here..."
-              className="flex-1 font-mono text-sm"
+              className="flex-1 font-mono text-sm bg-black text-white/80"
               style={{ minHeight: '300px' }}
             />
           </div>
@@ -83,7 +83,7 @@ export function SourceInput({ onCreateComponent, isLoading }: SourceInputProps) 
           <Button 
             type="submit" 
             disabled={isLoading || !sourceCode.trim()}
-            className="w-full"
+            className="w-full bg-blue-500 hover:bg-blue-600"
           >
             {isLoading ? (
               <>
