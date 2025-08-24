@@ -7,12 +7,6 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { nextCookies } from "better-auth/next-js";
 import { createAuthMiddleware, multiSession } from "better-auth/plugins"
-import { sendAdminSlackNotification } from "@/lib/services/notification";
-import { resend } from "@/lib/services/resend";
-import WelcomeEmail from "@/lib/services/email-templates/WelcomeEmail";
-import { SYSTEM_ADMIN_EMAIL } from "@/lib/constant";
-import { user } from "@/server/db/schema";
-import { eq } from "drizzle-orm";
 
 export const auth = betterAuth({
     database: drizzleAdapter(db, {
@@ -20,13 +14,6 @@ export const auth = betterAuth({
     }),
     user: {
         additionalFields: {
-            metadata: {
-                type: "string",
-                required: false,
-                input: false,
-                fieldName: "metadata",
-                unique: false,
-            },
             onboard: {
                 type: "number",
                 required: false,
@@ -47,25 +34,7 @@ export const auth = betterAuth({
         multiSession({
             maximumSessions: 2,
         }),
-    ],
-    databaseHooks: {
-        user: {
-            create: {
-                after: async (user, context) => {
-                    if (env.NODE_ENV === 'production') {
-                        await sendAdminSlackNotification(`Hi-Guest | New user signed up: ${user.email} at ${user.createdAt}`);
-
-                        await resend.emails.send({
-                            from: SYSTEM_ADMIN_EMAIL,
-                            to: user.email,
-                            subject: 'Welcome to Hi-Guest!',
-                            react: WelcomeEmail({ name: user.name! || 'there' }),
-                        });
-                    }
-                },
-            }
-        }
-    }
+    ]
 });
 
 

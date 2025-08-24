@@ -15,9 +15,6 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(['development', 'test', 'production'])
       .default('development'),
-    SLACK_NOTIFICATION_URL: z.string().optional(),
-    GEMINI_API_KEY: z.string().optional(),
-    RESEND_API_KEY: z.string()
   },
 
   /**
@@ -39,11 +36,8 @@ export const env = createEnv({
     TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL,
     TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN,
     NODE_ENV: process.env.NODE_ENV,
-    GEMINI_API_KEY: process.env.GEMINI_API_KEY,
-    SLACK_NOTIFICATION_URL: process.env.SLACK_NOTIFICATION_URL,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-    RESEND_API_KEY: process.env.RESEND_API_KEY,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
