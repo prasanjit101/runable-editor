@@ -3,10 +3,8 @@ import { eq } from 'drizzle-orm';
 import { db } from '@/server/db';
 import { component } from '@/server/db/schema';
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const [foundComponent] = await db
       .select()
