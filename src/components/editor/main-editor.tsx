@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
@@ -143,6 +143,9 @@ export function MainEditor() {
               <Card className="h-full">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm">Preview</CardTitle>
+                  <CardDescription className="text-xs text-muted-foreground">
+                    Just click on the element you want to edit and configure it from the right panel.
+                  </CardDescription>
                   {state.selectedPath && (
                     <p className="text-xs text-muted-foreground">
                       Selected: {state.selectedPath}
