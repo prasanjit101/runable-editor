@@ -1,0 +1,1 @@
+export const SYSTEM_ADMIN_EMAIL = "Jit <jit@byjit.com>"
