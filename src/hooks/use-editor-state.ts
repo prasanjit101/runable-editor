@@ -53,7 +53,7 @@ export function useEditorState() {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
     
     try {
-      let normalizedSourceCode = sourceCode.replace(
+      const normalizedSourceCode = sourceCode.replace(
         /export\s+default\s+function\s+([A-Za-z0-9_]+)/,
         'export default function MyComponent'
       );

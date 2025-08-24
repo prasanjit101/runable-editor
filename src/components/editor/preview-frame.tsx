@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import { ComponentEdit, PreviewFrameMessage } from '@/types/editor';
-import { applyEdits, generateDOMPath } from '@/lib/editor-utils';
 
 interface PreviewFrameProps {
   sourceCode: string;

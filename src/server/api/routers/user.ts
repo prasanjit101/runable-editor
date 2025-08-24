@@ -3,7 +3,6 @@ import { z } from 'zod';
 import {
     createTRPCRouter,
     protectedProcedure,
-    publicProcedure,
 } from '@/server/api/trpc';
 import { eq } from 'drizzle-orm';
 import { user } from '@/server/db/schema';

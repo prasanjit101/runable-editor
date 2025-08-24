@@ -1,7 +1,4 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/block/Logo';
-import { ArrowLeft } from 'lucide-react';
 import { GoBack } from '@/components/go-back';
 
 export default function NotFound() {
