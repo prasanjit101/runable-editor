@@ -3,5 +3,7 @@ alwaysApply: true
 ---
 ## Project Overview
 
-project description
+Project Name : Runable Editor
+
+An app that can preview any react component I can copy paste into it and allow me to edit the component visually by selecting elements inside it and making the change.
 
